@@ -2,8 +2,6 @@
 
 **A simple GUI translator between Russian and Chinese with text-to-speech functionality**  
 
-![App Screenshot](https://example.com/screenshot.png) *(replace with actual screenshot link)*  
-
 ## Features  
 
 - 🔄 **Bidirectional translation** between Russian and Chinese  
