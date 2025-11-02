@@ -4,11 +4,11 @@
 
 ## Features  
 
-- 🔄 **Bidirectional translation** between Russian and Chinese  
-- 🔊 **Text-to-speech** for both languages  
-- 📋 **One-click copy** to clipboard (both source and translated text)  
-- 🗑️ **Instant clear** for text fields  
-- 🖥️ **Clean interface** with large text areas  
+- **Bidirectional translation** between Russian and Chinese  
+- **Text-to-speech** for both languages  
+- **One-click copy** to clipboard (both source and translated text)  
+- **Instant clear** for text fields  
+- **Clean interface** with large text areas  
 
 ## How to Use  
 
@@ -21,9 +21,9 @@
 3. **Click "Перевести" (Translate)**  
 
 4. **Use buttons**:  
-   - `⎘` Copy text  
-   - `✕` Clear text  
-   - `🔊` Speak text  
+   - Copy text  
+   - Clear text  
+   - Speak text  
 
 ## Installation  
 
