@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>{{news_1.heading}}</title>
+</head>
+<body>
+<table border="1" style="border-collapse: collapse; border-color: #555; width: 100%">
+    <tr style="background-color: #333; color: white;">
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'about'%}" style="color: white; text-decoration: none;">О школе</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'news'%}" style="color: white; text-decoration: none;">Новости</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'staff_list'%}" style="color: white; text-decoration: none;">Список работников</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'contacts'%}" style="color: white; text-decoration: none;">Контакты</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'vacancy'%}" style="color: white; text-decoration: none;">Вакансии</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'sponsors'%}" style="color: white; text-decoration: none;">Спонсоры</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'documents'%}" style="color: white; text-decoration: none;">Документы</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'feedback'%}" style="color: white; text-decoration: none;">Обратная связь</a></td>
+    </tr>
+</table>
+<h1>{{news_1.heading}}</h1>
+<p style="font-size: 20px;">Категории: {{news_1.main_category}} | {{news_1.audience_category}} | {{news_1.thematic_category}}</p>
+<hr>
+<br>
+<table>
+    <tr>
+        <td style="width: 1500px; font-size: 23px;">
+            <b>Основной текст</b>
+        </td>
+    </tr>
+    <tr>
+        <td align="justify" style="width: 1500px; font-size: 20px;">
+            {{news_1.text}}
+        </td>
+    </tr>
+</table>
+<h2>Фотографии</h2>
+{% if news_1.photo %}
+    <img src="{{ object.photo.url }}" height="300" alt="{{ news_1.photo }}">
+{% else %}
+    <img src="/media/news/Снимок экрана 2025-05-29 192218.png" height="300" alt="Фото отсутствует">
+{% endif %}
+
+</body>
+</html>

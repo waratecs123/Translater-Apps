@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Вакансии</title>
+</head>
+<body>
+<table border="1" style="border-collapse: collapse; border-color: #555; width: 100%">
+    <tr style="background-color: #333; color: white;">
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'about'%}" style="color: white; text-decoration: none;">О школе</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'news'%}" style="color: white; text-decoration: none;">Новости</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'staff_list'%}" style="color: white; text-decoration: none;">Список работников</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'contacts'%}" style="color: white; text-decoration: none;">Контакты</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'vacancy'%}" style="color: white; text-decoration: none;">Вакансии</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'sponsors'%}" style="color: white; text-decoration: none;">Спонсоры</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'documents'%}" style="color: white; text-decoration: none;">Документы</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'feedback'%}" style="color: white; text-decoration: none;">Обратная связь</a></td>
+    </tr>
+</table>
+<h1>Список вакансий в школу</h1>
+<hr>
+<table>
+    <tr>
+        <td align="justify" style="width: 1500px; font-size: 20px;">
+            Раздел «Вакансии» предназначен для тех, кто хочет присоединиться к нашей команде.
+            Здесь размещаются актуальные предложения работы с описанием требований, условий
+            труда и benefits. Мы подробно рассказываем о корпоративной культуре, возможностях
+            карьерного роста и процессе отбора. Кандидаты могут отправить резюме через удобную
+            форму или связаться с HR-отделом для уточнения деталей. Мы рады профессионалам,
+            которые разделяют наши ценности и готовы развиваться вместе с нами.
+        </td>
+    </tr>
+</table>
+<br>
+<hr>
+<br>
+<table style="font-size: 20px;">
+    {% for vacancy in vacancy_list %}
+    <tr>
+        <td style="font-size: 23px;"><b>{{vacancy.heading}}</b></td>
+    </tr>
+    <tr>
+        <td><b>Зарплата: </b>{{vacancy.salary}} рублей</td>
+    </tr>
+    <tr>
+        <td><b>Актуальна вакансия: </b>{{vacancy.is_actual}}</td>
+    </tr>
+    <tr>
+        <td style="font-size: 24px;"><a href="{% url 'vacancy_1' pk=vacancy.id %}" class="btn" >Перейти</a></td>
+    </tr>
+    <tr>
+        <td><br></td>
+    </tr>
+    {% endfor %}
+</table>
+<div style="position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 10px; text-align: center; border-top: 1px solid #ddd;">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">Назад</a>
+    {% endif %}
+
+    Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+
+    {% if page_obj.has_next %}
+         <a href="?page={{ page_obj.next_page_number }}">Вперед</a>
+    {% endif %}
+</div>
+</body>
+</html>

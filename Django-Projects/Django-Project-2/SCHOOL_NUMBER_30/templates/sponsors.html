@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Спонсоры</title>
+</head>
+<body>
+<table border="1" style="border-collapse: collapse; border-color: #555; width: 100%">
+    <tr style="background-color: #333; color: white;">
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'about'%}" style="color: white; text-decoration: none;">О школе</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'news'%}" style="color: white; text-decoration: none;">Новости</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'staff_list'%}" style="color: white; text-decoration: none;">Список работников</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'contacts'%}" style="color: white; text-decoration: none;">Контакты</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'vacancy'%}" style="color: white; text-decoration: none;">Вакансии</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'sponsors'%}" style="color: white; text-decoration: none;">Спонсоры</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'documents'%}" style="color: white; text-decoration: none;">Документы</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'feedback'%}" style="color: white; text-decoration: none;">Обратная связь</a></td>
+    </tr>
+</table>
+<h1>Главные спонсоры школы</h1>
+<hr>
+<table>
+    <tr>
+        <td align="justify" style="width: 1500px; font-size: 20px;">
+            Страница «Спонсоры» посвящена компаниям и частным лицам,
+            которые поддерживают нашу деятельность. Здесь мы выражаем
+            благодарность нашим партнерам, предоставляя информацию об
+            их вкладе в развитие организации. Для каждого спонсора может
+            быть размещен логотип, описание сотрудничества и ссылка на его
+            сайт. Мы ценим доверие и помощь наших спонсоров и стремимся к
+            долгосрочному партнерству. Если вы хотите присоединиться к числу
+            наших благотворителей, здесь же найдете условия поддержки.
+        </td>
+    </tr>
+</table>
+<br>
+<table style="font-size: 20px;" border="1px">
+    <tr style="font-size: 23px;">
+        <td style="width: 300px;"><b>Название</b></td>
+        <td style="width: 700px;"><b>Описание</b></td>
+    </tr>
+    {% for sponsor in sponsors %}
+    <tr>
+        <td>{{sponsor.heading}}</td>
+        <td>{{sponsor.about}}</td>
+    </tr>
+    {% endfor %}
+</table>
+<div style="position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 10px; text-align: center; border-top: 1px solid #ddd;">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">Назад</a>
+    {% endif %}
+
+    Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+
+    {% if page_obj.has_next %}
+         <a href="?page={{ page_obj.next_page_number }}">Вперед</a>
+    {% endif %}
+</div>
+</body>
+</html>

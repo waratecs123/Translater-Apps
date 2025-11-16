@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>{{vacancy_1.heading}}</title>
+</head>
+<body>
+<table border="1" style="border-collapse: collapse; border-color: #555; width: 100%">
+    <tr style="background-color: #333; color: white;">
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'about'%}" style="color: white; text-decoration: none;">О школе</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'news'%}" style="color: white; text-decoration: none;">Новости</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'staff_list'%}" style="color: white; text-decoration: none;">Список работников</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'contacts'%}" style="color: white; text-decoration: none;">Контакты</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'vacancy'%}" style="color: white; text-decoration: none;">Вакансии</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'sponsors'%}" style="color: white; text-decoration: none;">Спонсоры</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'documents'%}" style="color: white; text-decoration: none;">Документы</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'feedback'%}" style="color: white; text-decoration: none;">Обратная связь</a></td>
+    </tr>
+</table>
+<h1>Требуемый специалист: {{vacancy_1.heading}}</h1>
+<hr>
+<p style="font-size: 20px;"><b>Описание вакансии:</b><br>
+    {{vacancy_1.text}}
+</p>
+<p style="font-size: 20px;"><b>Заработная плата (ежемесячная):</b>
+    {{vacancy_1.salary}} рублей
+</p>
+<p style="font-size: 20px;"><b>Актуально ли вакансия в данный момент времени:</b>
+    {{vacancy_1.is_actual}}
+</p>
+<table>
+    <tr>
+        <td align="justify" style="width: 1500px; font-size: 20px;">
+            Если вы заинтересовались представленными вакансиями и желаете получить дополнительную информацию
+            или обсудить возможность трудоустройства в нашей организации, просим вас обратиться по указанному
+            контактному телефону в рабочее время — с 9:00 до 18:00 по местному времени, с понедельника по
+            пятницу. Наши специалисты отдела кадров готовы предоставить вам детальные разъяснения относительно
+            требований к кандидатам, условий труда, социального пакета и дальнейших этапов отбора. Для
+            оперативного рассмотрения вашей кандидатуры рекомендуем заранее подготовить резюме и уточнить номер
+            интересующей вакансии. Мы ценим ваш интерес к нашей компании и гарантируем внимательное отношение к
+            каждому обращению. В случае высокой загруженности линии возможна обработка запросов через электронную
+            почту или официальные мессенджеры, указанные в разделе «Контакты».
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 1500px; font-size: 20px;"><b>Номер для связи:</b> +7(999)999-99-99</td>
+    </tr>
+</table>
+</body>
+</html>

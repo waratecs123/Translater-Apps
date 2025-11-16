@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>{{staff_1.full_name}}</title>
+</head>
+<body>
+<table border="1" style="border-collapse: collapse; border-color: #555; width: 100%">
+    <tr style="background-color: #333; color: white;">
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'about'%}" style="color: white; text-decoration: none;">О школе</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'news'%}" style="color: white; text-decoration: none;">Новости</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'staff_list'%}" style="color: white; text-decoration: none;">Список работников</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'contacts'%}" style="color: white; text-decoration: none;">Контакты</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'vacancy'%}" style="color: white; text-decoration: none;">Вакансии</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'sponsors'%}" style="color: white; text-decoration: none;">Спонсоры</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'documents'%}" style="color: white; text-decoration: none;">Документы</a></td>
+        <td style="width: 160px; padding: 8px; border: 1px solid #555;"><a href="{% url 'feedback'%}" style="color: white; text-decoration: none;">Обратная связь</a></td>
+    </tr>
+</table>
+<br>
+<br>
+
+{% if staff_1.photo %}
+    <img src="{{ object.photo.url }}" height="300" alt="{{ object.full_name }}">
+{% else %}
+    <img src="/media/news/Снимок экрана 2025-05-29 192218.png" height="300" alt="Фото отсутствует">
+{% endif %}
+
+<h1>{{staff_1.full_name}}</h1>
+{% for staff in staff_1.position.all %}
+<h2>{{staff.title}}</h2>
+{% endfor %}
+<hr>
+<p style="font-size: 20px;">
+    <b>Краткая биография:</b>
+    <br>
+    {{staff_1.short_bio}}
+    <br>
+</p>
+<p style="font-size: 20px;">
+    <b>Образование: </b>{{staff_1.education}}
+    <br>
+    <b>Квалификация: </b>{{staff_1.qualification}}
+    <br>
+    <b>Стаж работы (в годах): </b>{{staff_1.work_experience}}
+</p>
+<hr>
+<p style="font-size: 20px;">
+    <b>Контактные данные:</b>
+    <ul style="font-size: 20px;">
+    <li>Элетронная почта: {{staff_1.email}}</li>
+    <li>Номер телефона: {{staff_1.full_phone}}</li>
+    {% if staff_1.telegram %}
+    <li>Телеграм: {{staff_1.telegram}}</li>
+    {% else %}
+    <li>Телеграм: не указан</li>
+    {% endif %}
+    </ul>
+</p>
+</body>
+</html>
