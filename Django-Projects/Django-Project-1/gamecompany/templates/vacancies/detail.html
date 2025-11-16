@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ vacancy.title }} | GameDev Studio</title>
+    {% block content %}
+    <style>
+        :root {
+            --primary: #6e45e2;
+            --secondary: #88d3ce;
+            --dark: #2a2d3b;
+            --light: #f9f9f9;
+            --accent: #ff7e5f;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .back-link:hover {
+            color: var(--accent);
+            transform: translateX(-5px);
+        }
+
+        .vacancy-header {
+            display: flex;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .vacancy-images {
+            flex: 1;
+        }
+
+        .vacancy-main-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1rem;
+        }
+
+        .vacancy-info {
+            flex: 1;
+        }
+
+        .vacancy-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .vacancy-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .vacancy-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            margin-right: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(110, 69, 226, 0.4);
+        }
+
+        .vacancy-description {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            margin-top: 2rem;
+            line-height: 1.8;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 3px;
+        }
+
+        .contact-info {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{% url 'vacancies_list' %}" class="back-link">
+            ← Все вакансии
+        </a>
+
+        <div class="vacancy-header">
+            <div class="vacancy-images">
+                {% if vacancy.photo1 %}
+                <img src="{{ vacancy.photo1.url }}" alt="{{ vacancy.title }}" class="vacancy-main-image">
+                {% endif %}
+                {% if vacancy.photo2 %}
+                <img src="{{ vacancy.photo2.url }}" alt="{{ vacancy.title }}" class="vacancy-main-image">
+                {% endif %}
+            </div>
+
+            <div class="vacancy-info">
+                <h1 class="vacancy-title">{{ vacancy.title }}</h1>
+                <div class="vacancy-price">{{ vacancy.price }} ₽</div>
+
+                <div class="vacancy-meta">
+                    <div class="meta-item">
+                        <span>Опыт:</span>
+                        <strong>{{ vacancy.experience }} лет</strong>
+                    </div>
+                    <div class="meta-item">
+                        <span>Уровень:</span>
+                        <strong>{{ vacancy.get_experience_level_display }}</strong>
+                    </div>
+                    <div class="meta-item">
+                        <span>Статус:</span>
+                        <strong>{{ vacancy.get_is_actual_display }}</strong>
+                    </div>
+                </div>
+
+                <div class="vacancy-actions">
+                    <a href="{% url 'contacts' %}" class="btn">Откликнуться</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="vacancy-description">
+            <h2 class="section-title">Описание вакансии</h2>
+            <p>{{ vacancy.text }}</p>
+        </div>
+
+        <div class="contact-info">
+            <h2 class="section-title">Контактная информация</h2>
+            <div class="contact-item">
+                <span>Телефон:</span>
+                <strong>{{ vacancy.full_phone }}</strong>
+            </div>
+            <div class="contact-item">
+                <span>Email:</span>
+                <strong>{{ vacancy.email }}</strong>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+</body>
+</html>

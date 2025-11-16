@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}DDM GAMES{% endblock %}</title>
+    <style>
+        :root {
+            --primary: #6e45e2;
+            --primary-light: #9d8aee;
+            --secondary: #88d3ce;
+            --dark: #2a2d3b;
+            --dark-light: #4a4d5b;
+            --light: #f9f9f9;
+            --accent: #ff7e5f;
+            --accent-light: #ff9e85;
+        }
+
+        @font-face {
+            font-family: 'Inter';
+            src: url('/static/fonts/Inter-Regular.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Inter';
+            src: url('/static/fonts/Inter-Bold.woff2') format('woff2');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+        }
+
+        /* Header styles */
+        .header {
+            background-color: white;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .logo-icon {
+            color: var(--primary);
+            margin-right: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            color: var(--dark-light);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+            background-color: rgba(110, 69, 226, 0.1);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 3px;
+        }
+
+        /* Footer styles */
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-about {
+            opacity: 0.8;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .footer-social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 3px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .logo {
+                margin-bottom: 1rem;
+            }
+
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="{% url 'games_list' %}" class="logo">
+    <img src="/media/Без названия91_20250323183342.png" alt="Логотип DDM GAMES" class="logo-image" height="50">
+    <span>DDM GAMES</span>
+</a>
+            <nav class="nav-menu">
+                <a href="{% url 'games_list' %}" class="nav-link {% if request.path == '/games/' %}active{% endif %}">Игры</a>
+                <a href="{% url 'staff_list' %}" class="nav-link {% if request.path == '/staff/' %}active{% endif %}">Команда</a>
+                <a href="{% url 'vacancies_list' %}" class="nav-link {% if request.path == '/vacancies/' %}active{% endif %}">Вакансии</a>
+                <a href="{% url 'products_list' %}" class="nav-link {% if request.path == '/products/' %}active{% endif %}">Продукты</a>
+                <a href="{% url 'news_list' %}" class="nav-link {% if request.path == '/news/' %}active{% endif %}">Новости</a>
+                <a href="{% url 'about' %}" class="nav-link {% if request.path == '/about/' %}active{% endif %}">О нас</a>
+                <a href="{% url 'contacts' %}" class="nav-link {% if request.path == '/contacts/' %}active{% endif %}">Контакты</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="{% url 'games_list' %}" class="footer-logo">
+                        <span class="logo-icon"></span>
+                        <span>DDM GAMES</span>
+                    </a>
+                    <p class="footer-about">
+                        Создаём игры, которые вдохновляют и запоминаются. Наша миссия - дарить игрокам незабываемые эмоции и уникальный игровой опыт.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-vk"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3 class="footer-title">Навигация</h3>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'games_list' %}">Игры</a></li>
+                        <li><a href="{% url 'staff_list' %}">Команда</a></li>
+                        <li><a href="{% url 'vacancies_list' %}">Вакансии</a></li>
+                        <li><a href="{% url 'products_list' %}">Продукты</a></li>
+                        <li><a href="{% url 'news_list' %}">Новости</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3 class="footer-title">Информация</h3>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'about' %}">О нас</a></li>
+                        <li><a href="{% url 'contacts' %}">Контакты</a></li>
+                        <li><a href="{% url 'feedback' %}">Обратная связь</a></li>
+                        <li><a href="{% url 'cooperation' %}">Сотрудничество</a></li>
+                        <li><a href="{% url 'sponsors_list' %}">Спонсоры</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3 class="footer-title">Контакты</h3>
+                    <ul class="footer-links">
+                        <li>Приморский край, г. Уссурийск</li>
+                        <li>+7 999 615-97-51</li>
+                        <li>serfioofficial666@gmail.com</li>
+                        <li>Пн-Пт: 10:00 - 19:00</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 DDM GAMES. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Font Awesome для иконок -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>

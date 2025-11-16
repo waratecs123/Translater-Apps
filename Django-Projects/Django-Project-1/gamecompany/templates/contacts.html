@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакты | GameDev Studio</title>
+    {% block content %}
+    <style>
+        :root {
+            --primary: #6e45e2;
+            --secondary: #88d3ce;
+            --dark: #2a2d3b;
+            --light: #f9f9f9;
+            --accent: #ff7e5f;
+        }
+
+        body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--light);
+    color: var(--dark);
+    margin: 0;
+    padding: 0;
+    line-height: 1.8;
+    /* Добавьте эти строки для фонового изображения */
+    background-image: url('https://avatars.mds.yandex.net/i?id=6026d9f16da736f1fb8a8bb1a324c3b1_l-5278064-images-thumbs&n=13'); /* Замените на ваш URL */
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+/* Затемнение фона для лучшей читаемости */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.85); /* Белый слой с прозрачностью 85% */
+    z-index: -1;
+}
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .back-link:hover {
+            color: var(--accent);
+            transform: translateX(-5px);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            position: relative;
+            display: inline-block;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 3px;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .contact-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .contact-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .contact-info {
+            color: var(--dark);
+            opacity: 0.8;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(110, 69, 226, 0.4);
+        }
+
+        .map-container {
+            margin-top: 3rem;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div class="page-header">
+            <h1 class="page-title">Свяжитесь с нами</h1>
+            <p>Мы всегда рады новым идеям и сотрудничеству. Напишите нам или посетите наш офис.</p>
+        </div>
+
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-icon">📍</div>
+                <h3 class="contact-title">Адрес</h3>
+                <p class="contact-info">Приморский край<br>Город Уссурийск</p>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-icon">✉️</div>
+                <h3 class="contact-title">Email</h3>
+                <p class="contact-info">serfioofficial666@gmail.com<br>netuimanetuima@gmail.com</p>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-icon">📞</div>
+                <h3 class="contact-title">Телефон</h3>
+                <p class="contact-info">+7 999 615-97-51<br>Пн-Пт: 10:00 - 19:00</p>
+            </div>
+        </div>
+
+<div class="social-links">
+    <a href="https://www.youtube.com/channel/UC_Mtyy5hL3Pc9WSd--HD_iw" target="_blank" class="social-link youtube">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+        </svg>
+        YouTube Канал
+    </a>
+
+    <a href="https://itch.io/profile/ddm-games" target="_blank" class="social-link itch">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M11.041 5.438c-.84.378-1.448 1.187-1.489 2.07-.031.633.257 1.341.675 1.92.328.456.888.84 1.456.933.328.053.464.025.612-.053.168-.09.22-.168.315-.328.295-.49.295-1.341 0-1.808-.09-.18-.122-.213-.348-.3-.21-.083-.367-.05-.612.134-.42.312-.575.871-.42 1.507.066.27.24.64.42.84.42.46 1.17.708 1.92.66.78-.05 1.48-.38 1.89-.87.15-.18.345-.6.345-.75 0-.06-.09-.13-.12-.13h-.06c-.06 0-.09.01-.12.06-.21.27-.57.42-.93.42-.45 0-.87-.27-1.02-.69-.06-.18-.09-.39-.06-.57.06-.27.27-.57.54-.66.27-.09.57-.06.81.06.18.09.39.3.45.48l.12.09c.03.04.06.03.09.02.03-.01.06-.04.06-.07 0-.22-.11-.45-.24-.57-.36-.36-.96-.54-1.5-.45-1.17.18-2.13 1.38-1.95 2.61.09.6.39 1.14.87 1.44 1.29.81 3.09.27 3.69-1.11.27-.6.33-1.59.12-2.25-.27-.87-.87-1.59-1.71-1.95-.66-.27-1.38-.3-2.07-.09zm9.459 1.562h-2v-2h-1v2h-2v1h2v2h1v-2h2v-1zm-12 3v8h10v-8h-10zm1 1h1v6h-1v-6zm2 0h1v6h-1v-6zm2 0h1v6h-1v-6zm2 0h1v6h-1v-6zm2 0h1v6h-1v-6z"/>
+        </svg>
+        Itch.io Профиль
+    </a>
+
+    <a href="https://gamejolt.com/@DDM_GAMES" target="_blank" class="social-link gamejolt">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M16 12l-4-4-4 4 4 4 4-4zm-12 0l4 4 4-4-4-4-4 4zm20 0l-4-4-4 4 4 4 4-4z"/>
+        </svg>
+        GameJolt Страница
+    </a>
+</div>
+
+<style>
+.social-links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 12px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-family: 'Segoe UI', sans-serif;
+    transition: all 0.3s ease;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-width: 180px;
+    text-align: center;
+}
+
+.social-link svg {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+
+/* YouTube button */
+.youtube {
+    background: linear-gradient(135deg, #FF0000, #CC0000);
+}
+
+.youtube:hover {
+    background: linear-gradient(135deg, #CC0000, #990000);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(255, 0, 0, 0.25);
+}
+
+/* Itch.io button */
+.itch {
+    background: linear-gradient(135deg, #FA5C5C, #D84949);
+}
+
+.itch:hover {
+    background: linear-gradient(135deg, #D84949, #B53636);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(250, 92, 92, 0.25);
+}
+
+/* GameJolt button */
+.gamejolt {
+    background: linear-gradient(135deg, #6E5BA8, #5A4B8C);
+}
+
+.gamejolt:hover {
+    background: linear-gradient(135deg, #5A4B8C, #463A70);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(110, 91, 168, 0.25);
+}
+
+@media (max-width: 600px) {
+    .social-links {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .social-link {
+        width: 100%;
+    }
+}
+</style>
+
+        <div class="map-container">
+            <iframe
+  src="https://yandex.ru/map-widget/v1/?um=constructor%3A...&amp;ll=131.952125%2C43.798371&amp;zoom=12"
+  width="100%"
+  height="400"
+  frameborder="0">
+</iframe>
+        </div>
+    </div>
+{% endblock %}
+</body>
+</html>

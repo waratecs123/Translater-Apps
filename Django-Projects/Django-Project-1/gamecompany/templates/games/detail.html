@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ game.title }} | GameDev Studio</title>
+    {% block content %}
+    <style>
+        :root {
+            --primary: #6e45e2;
+            --secondary: #88d3ce;
+            --dark: #2a2d3b;
+            --light: #f9f9f9;
+            --accent: #ff7e5f;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: var(--dark);
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Фоновые изображения с анимацией */
+        .background-slideshow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .background-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        .background-slide.active {
+            opacity: 0.3; /* Полупрозрачность фона */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .back-link:hover {
+            color: var(--accent);
+            transform: translateX(-5px);
+        }
+
+        .game-header {
+            display: flex;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .game-images {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .game-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .game-info {
+            flex: 1;
+        }
+
+        .game-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .game-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            margin-right: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(110, 69, 226, 0.4);
+        }
+
+        .game-description {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            margin-top: 2rem;
+            line-height: 1.8;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 3px;
+        }
+
+        .documents {
+            margin-top: 2rem;
+        }
+
+        .document-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .document-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .document-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .game-header {
+                flex-direction: column;
+            }
+
+            .game-images {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Фоновый слайдер -->
+    <div class="background-slideshow">
+        {% if game.photo1 %}
+        <div class="background-slide" style="background-image: url('{{ game.photo1.url }}');"></div>
+        {% endif %}
+        {% if game.photo2 %}
+        <div class="background-slide" style="background-image: url('{{ game.photo2.url }}');"></div>
+        {% endif %}
+        {% if game.photo3 %}
+        <div class="background-slide" style="background-image: url('{{ game.photo3.url }}');"></div>
+        {% endif %}
+    </div>
+
+    <div class="container">
+        <a href="{% url 'games_list' %}" class="back-link">
+            ← Все игры
+        </a>
+
+        <div class="game-header">
+            <div class="game-images">
+                {% if game.photo1 %}
+                <img src="{{ game.photo1.url }}" alt="{{ game.title }}" class="game-image">
+                {% endif %}
+                {% if game.photo2 %}
+                <img src="{{ game.photo2.url }}" alt="{{ game.title }}" class="game-image">
+                {% endif %}
+                {% if game.photo3 %}
+                <img src="{{ game.photo3.url }}" alt="{{ game.title }}" class="game-image">
+                {% endif %}
+            </div>
+
+            <div class="game-info">
+                <h1 class="game-title">{{ game.title }}</h1>
+
+                <div class="game-meta">
+                    <div class="meta-item">
+                        <span>Год выпуска:</span>
+                        <strong>{{ game.year }}</strong>
+                    </div>
+                    <div class="meta-item">
+                        <span>Компания:</span>
+                        <strong>{{ game.company }}</strong>
+                    </div>
+                </div>
+
+                {% if game.trailer %}
+                <a href="{{ game.trailer }}" target="_blank" class="btn">Смотреть трейлер</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="game-description">
+            <h2 class="section-title">Описание игры</h2>
+            <p>{{ game.text }}</p>
+        </div>
+
+        {% if game.presentation or game.document1 or game.document2 or game.document3 %}
+        <div class="documents">
+            <h2 class="section-title">Материалы</h2>
+            <div class="document-list">
+                {% if game.presentation %}
+                <div class="document-item">
+                    <a href="{{ game.presentation.url }}" download>Презентация</a>
+                </div>
+                {% endif %}
+                {% if game.document1 %}
+                <div class="document-item">
+                    <a href="{{ game.document1.url }}" download>Документ 1</a>
+                </div>
+                {% endif %}
+                {% if game.document2 %}
+                <div class="document-item">
+                    <a href="{{ game.document2.url }}" download>Документ 2</a>
+                </div>
+                {% endif %}
+                {% if game.document3 %}
+                <div class="document-item">
+                    <a href="{{ game.document3.url }}" download>Документ 3</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        // Анимация фоновых изображений
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.background-slide');
+            let currentSlide = 0;
+
+            // Показываем первое изображение
+            if (slides.length > 0) {
+                slides[0].classList.add('active');
+            }
+
+            // Автопереключение слайдов каждые 5 секунд
+            setInterval(() => {
+                if (slides.length > 0) {
+                    slides[currentSlide].classList.remove('active');
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    slides[currentSlide].classList.add('active');
+                }
+            }, 5000);
+        });
+    </script>
+{% endblock %}
+</body>
+</html>

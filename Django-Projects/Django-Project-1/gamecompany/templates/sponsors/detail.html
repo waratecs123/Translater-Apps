@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ sponsor.name }} | GameDev Studio</title>
+{% block content %}
+    <style>
+        :root {
+            --primary: #6e45e2;
+            --primary-light: #9d8aee;
+            --secondary: #88d3ce;
+            --dark: #2a2d3b;
+            --dark-light: #4a4d5b;
+            --light: #f9f9f9;
+            --accent: #ff7e5f;
+            --accent-light: #ff9e85;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .back-link:hover {
+            color: var(--accent);
+            background-color: rgba(110, 69, 226, 0.1);
+            transform: translateX(-5px);
+        }
+
+        .hero-section {
+            position: relative;
+            height: 50vh;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-bottom: 4rem;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .hero-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            opacity: 0.9;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(110, 69, 226, 0.8) 0%, rgba(255, 126, 95, 0.6) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 2rem;
+            color: white;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .sponsor-detail {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            margin: 4rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .sponsor-detail {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .sponsor-image {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            max-height: 400px;
+            object-fit: cover;
+        }
+
+        .sponsor-info {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .sponsor-name {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .sponsor-meta {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            color: var(--dark-light);
+        }
+
+        .sponsor-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sponsor-description {
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .sponsor-projects {
+            margin-top: 3rem;
+        }
+
+        .projects-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .projects-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .project-info {
+            padding: 1.5rem;
+        }
+
+        .project-name {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .project-year {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: white;
+            color: var(--primary);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{% url 'sponsors_list' %}" class="back-link">
+            ← Назад к списку спонсоров
+        </a>
+
+        <div class="hero-section">
+            <img src="{{ sponsor.logo.url }}" alt="{{ sponsor.name }}" class="hero-image">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1 class="page-title">{{ sponsor.name }}</h1>
+                <p class="page-subtitle">{{ sponsor.tagline }}</p>
+            </div>
+        </div>
+
+        <div class="sponsor-detail">
+            <div>
+                <img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}" class="sponsor-image">
+            </div>
+            <div class="sponsor-info">
+                <h2 class="sponsor-name">{{ sponsor.name }}</h2>
+                
+                <div class="sponsor-meta">
+                    {% if sponsor.website %}
+                    <div class="sponsor-meta-item">
+                        <i class="fas fa-globe"></i>
+                        <a href="{{ sponsor.website }}" target="_blank">Официальный сайт</a>
+                    </div>
+                    {% endif %}
+                    
+                    {% if sponsor.founded_year %}
+                    <div class="sponsor-meta-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        Основан в {{ sponsor.founded_year }} году
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="sponsor-description">
+                    {{ sponsor.description|linebreaks }}
+                </div>
+
+                {% if sponsor.contribution %}
+                <div class="sponsor-contribution">
+                    <h3>Вклад в индустрию</h3>
+                    <p>{{ sponsor.contribution }}</p>
+                </div>
+                {% endif %}
+
+                <a href="{{ sponsor.website }}" class="btn btn-primary" target="_blank">Посетить сайт</a>
+            </div>
+        </div>
+
+        {% if sponsored_projects %}
+        <div class="sponsor-projects">
+            <h3 class="projects-title">Поддержанные проекты</h3>
+            <div class="projects-grid">
+                {% for project in sponsored_projects %}
+                <div class="project-card">
+                    <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-image">
+                    <div class="project-info">
+                        <h4 class="project-name">{{ project.title }}</h4>
+                        <div class="project-year">{{ project.year }}</div>
+                        <p>{{ project.short_description }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Font Awesome для иконок -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+{% endblock %}
+</body>
+</html>

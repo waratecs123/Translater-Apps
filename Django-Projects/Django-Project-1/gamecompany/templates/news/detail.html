@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ news.title }} | GameDev Studio</title>
+    {% block content %}
+    <style>
+        :root {
+            --primary: #6e45e2;
+            --secondary: #88d3ce;
+            --dark: #2a2d3b;
+            --light: #f9f9f9;
+            --accent: #ff7e5f;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+            color: var(--dark);
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Фоновый слайдер */
+        .background-slideshow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .background-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        .background-slide.active {
+            opacity: 0.3; /* Полупрозрачность фона */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .back-link:hover {
+            color: var(--accent);
+            transform: translateX(-5px);
+        }
+
+        .news-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .news-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            line-height: 1.3;
+        }
+
+        .news-date {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        .news-image {
+            width: 100%;
+            max-height: 500px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .news-image:hover {
+            transform: scale(1.02);
+        }
+
+        .news-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .gallery img:hover {
+            transform: scale(1.03);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .news-title {
+                font-size: 2rem;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Фоновый слайдер -->
+    <div class="background-slideshow">
+        {% if news.photo1 %}
+        <div class="background-slide" style="background-image: url('{{ news.photo1.url }}');"></div>
+        {% endif %}
+        {% if news.photo2 %}
+        <div class="background-slide" style="background-image: url('{{ news.photo2.url }}');"></div>
+        {% endif %}
+        {% if news.photo3 %}
+        <div class="background-slide" style="background-image: url('{{ news.photo3.url }}');"></div>
+        {% endif %}
+    </div>
+
+    <div class="container">
+        <a href="{% url 'news_list' %}" class="back-link">
+            ← Все новости
+        </a>
+
+        <div class="news-header">
+            <h1 class="news-title">{{ news.title }}</h1>
+            <span class="news-date">{{ news.created_at|date:"d.m.Y" }}</span>
+
+            {% if news.photo1 %}
+            <img src="{{ news.photo1.url }}" alt="{{ news.title }}" class="news-image">
+            {% endif %}
+        </div>
+
+        <div class="news-content">
+            {{ news.text|linebreaks }}
+        </div>
+
+        {% if news.photo2 or news.photo3 %}
+        <div class="gallery">
+            {% if news.photo2 %}
+            <img src="{{ news.photo2.url }}" alt="{{ news.title }}">
+            {% endif %}
+            {% if news.photo3 %}
+            <img src="{{ news.photo3.url }}" alt="{{ news.title }}">
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        // Анимация фоновых изображений
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.background-slide');
+            let currentSlide = 0;
+
+            // Показываем первое изображение
+            if (slides.length > 0) {
+                slides[0].classList.add('active');
+            }
+
+            // Автопереключение слайдов каждые 5 секунд
+            setInterval(() => {
+                if (slides.length > 0) {
+                    slides[currentSlide].classList.remove('active');
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    slides[currentSlide].classList.add('active');
+                }
+            }, 5000);
+        });
+    </script>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О студии | DDM GAMES</title>
+    {% block content %}
+    <style>
+        :root {
+            --primary: #6e45e2;
+            --primary-light: #9d8aee;
+            --secondary: #88d3ce;
+            --dark: #2a2d3b;
+            --dark-light: #4a4d5b;
+            --light: #f9f9f9;
+            --accent: #ff7e5f;
+            --accent-light: #ff9e85;
+        }
+
+        @font-face {
+            font-family: 'Inter';
+            src: url('/static/fonts/Inter-Regular.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Inter';
+            src: url('/static/fonts/Inter-Bold.woff2') format('woff2');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--light);
+    color: var(--dark);
+    margin: 0;
+    padding: 0;
+    line-height: 1.8;
+    /* Добавьте эти строки для фонового изображения */
+    background-image: url('https://get.wallhere.com/photo/minimalism-vector-colorful-Flatdesign-1670917.jpg'); /* Замените на ваш URL */
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+/* Затемнение фона для лучшей читаемости */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.85); /* Белый слой с прозрачностью 85% */
+    z-index: -1;
+}
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .back-link:hover {
+            color: var(--accent);
+            background-color: rgba(110, 69, 226, 0.1);
+            transform: translateX(-5px);
+        }
+
+        .hero-section {
+            position: relative;
+            height: 70vh;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-bottom: 4rem;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            opacity: 0.9;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(110, 69, 226, 0.8) 0%, rgba(255, 126, 95, 0.6) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 2rem;
+            color: white;
+        }
+
+        .page-title {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .page-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .btn {
+            display: inline-block;
+            background: white;
+            color: var(--primary);
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .section {
+            margin: 6rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 3px;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--dark-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-image {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.5s ease;
+        }
+
+        .about-image:hover {
+            transform: scale(1.02);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .about-content {
+            padding: 0 2rem;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+        }
+
+        .timeline-item {
+            position: relative;
+            width: 50%;
+            padding: 1.5rem 2.5rem;
+            box-sizing: border-box;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .timeline-date {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--dark-light);
+        }
+
+        .team-section {
+            background: linear-gradient(135deg, rgba(110, 69, 226, 0.03) 0%, rgba(255, 126, 95, 0.03) 100%);
+            padding: 4rem 0;
+            border-radius: 20px;
+            margin: 6rem 0;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .team-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            object-position: top;
+        }
+
+        .team-info {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .team-name {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .team-position {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .team-social {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .team-social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--light);
+            color: var(--dark);
+            transition: all 0.3s ease;
+        }
+
+        .team-social a:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .value-card {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .value-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .value-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .awards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .award-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .award-card:hover {
+            transform: scale(1.05);
+        }
+
+        .award-image {
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 1.5rem;
+        }
+
+        .award-year {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            padding: 5rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            color: white;
+            margin: 6rem 0;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .cta-text {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        .btn-white {
+            background: white;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .btn-white:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                height: auto;
+                min-height: auto;
+                padding: 4rem 0;
+            }
+
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 20px;
+            }
+
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div class="hero-section">
+            <video autoplay muted loop class="hero-video">
+                <source src="/static/videos/hero-background.mp4" type="video/mp4">
+            </video>
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1 class="page-title">DDM GAMES</h1>
+                <p class="page-subtitle">Создаём игры, которые вдохновляют и запоминаются</p>
+                <div>
+                    <a href="#our-story" class="btn btn-primary">Наша история</a>
+                    <a href="#our-team" class="btn">Наша команда</a>
+                </div>
+            </div>
+        </div>
+
+        <section id="our-story" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Наша история</h2>
+                <p class="section-subtitle">Маленькая команда интузиастов</p>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-image">
+                    <img src="https://static1.anpoimages.com/wordpress/wp-content/uploads/2024/12/itchio-logo.jpg" alt="Начало студии">
+                </div>
+                <div class="about-content">
+                    <h3>Скромные начинания</h3>
+                    <p>DDM GAMES начала свой путь в 2022 году, сосредоточившись на создании экспериментальных и камерных проектов для платформы itch.io. Небольшая, но увлечённая команда разработчиков с самого начала делала ставку на нестандартные механики и оригинальные концепции, что позволило их играм быстро найти свою аудиторию среди ценителей инди-геймдева. </p>
+                    <p>Несмотря на скромные бюджеты и ограниченные ресурсы, студия смогла заявить о себе благодаря креативному подходу и искренней любви к игровому искусству.</p>
+                </div>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2022</div>
+                        <h3 class="timeline-title">Основание студии</h3>
+                        <p>Двое друзей решают взять геймдев в свои руки и начинают делать игры на чистом энтузиазме</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2023</div>
+                        <h3 class="timeline-title">Первый успех</h3>
+                        <p>DDM GAMES получают первую 1000 скачиваний на своих игровых проектах</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2024</div>
+                        <h3 class="timeline-title">Помаленьку</h3>
+                        <p>Числа только продолжают расти, переступая порог в 10000 скачиваний. Появляется первая фанатская база</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2025</div>
+                        <h3 class="timeline-title">Ютуберы</h3>
+                        <p>По играм от DDM GAMES было снято более 100 видеороликов на платформу Ютуб</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2026</div>
+                        <h3 class="timeline-title">Продолжение следует..</h3>
+                        <p>Ожидайте продолжение..</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2027</div>
+                        <h3 class="timeline-title">Продолжение следует..</h3>
+                        <p>Ожидайте продолжение..</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">Выпущенных мини-проектов</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Участников в команде</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">32k</div>
+                    <div class="stat-label">Игроков по всему миру</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Игровых наград</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="team-section" id="our-team">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Наша команда</h2>
+                    <p class="section-subtitle">Талантливые люди, которые создают магию игр</p>
+                </div>
+
+                <div class="team-grid">
+                    <div class="team-card">
+                        <div class="team-info">
+                            <h3 class="team-name">Лаленко Игорь</h3>
+                            <p class="team-position">Основатель & CEO</p>
+                            <p>Амбициозный создатель, готовый на многое ради хорошего проекта</p>
+                            <div class="team-social">
+                                <a href="#"><i class="fab fa-vk"></i></a>
+                                <a href="#"><i class="fab fa-telegram"></i></a>
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-info">
+                            <h3 class="team-name">Исаев Александр</h3>
+                            <p class="team-position">Гейм-дизайнер</p>
+                            <p>"Много задумак.. жаль, что в сутках всего 24 часа"</p>
+                            <div class="team-social">
+                                <a href="#"><i class="fab fa-vk"></i></a>
+                                <a href="#"><i class="fab fa-telegram"></i></a>
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Наши ценности</h2>
+                <p class="section-subtitle">Принципы, которые направляют нашу работу</p>
+            </div>
+
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">💡</div>
+                    <h3 class="value-title">Инновации</h3>
+                    <p>Мы постоянно экспериментируем с новыми технологиями и игровыми механиками, чтобы создавать уникальный опыт.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">❤️</div>
+                    <h3 class="value-title">Страсть</h3>
+                    <p>Мы искренне любим то, что делаем, и вкладываем душу в каждый проект, независимо от его масштаба.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">🤝</div>
+                    <h3 class="value-title">Командная работа</h3>
+                    <p>Мы верим, что лучшие идеи рождаются в сотрудничестве, и ценим вклад каждого члена команды.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">🎯</div>
+                    <h3 class="value-title">Качество</h3>
+                    <p>Мы уделяем внимание каждой детали и не выпускаем продукт, пока не будем уверены в его совершенстве.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Награды и признание</h2>
+                <p class="section-subtitle">Профессиональное сообщество высоко оценивает нашу работу</p>
+            </div>
+
+            <div class="awards-grid">
+                <div class="award-card">
+                    <div class="award-year">2023</div>
+                    <h3>Лучшая графика</h3>
+                    <p>По словам друга генерального директора</p>
+                </div>
+                <div class="award-card">
+                    <div class="award-year">2024</div>
+                    <h3>Лучший геймплей</h3>
+                    <p>По мнению рандомного прохожего с улицы</p>
+                </div>
+                <div class="award-card">
+                    <div class="award-year">2022</div>
+                    <h3>Выбор игроков</h3>
+                    <p>По словам знакомых гейм-дизайнера</p>
+                </div>
+                <div class="award-card">
+                    <div class="award-year">2022</div>
+                    <h3>Лучший звук</h3>
+                    <p>По мнению генерального директора</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <h2 class="cta-title">Готовы создать что-то удивительное вместе?</h2>
+            <p class="cta-text">Мы всегда открыты для новых проектов и сотрудничества. Давайте обсудим ваши идеи!</p>
+            <a href="/contacts" class="btn btn-white">Связаться с нами</a>
+        </section>
+    </div>
+    {% endblock %}
+
+    <!-- Font Awesome для иконок -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>

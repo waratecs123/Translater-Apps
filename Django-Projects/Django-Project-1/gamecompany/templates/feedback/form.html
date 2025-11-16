@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DDM GAMES - Обратная связь</title>
+    {% block content %}
+    <style>
+        :root {
+            --primary: #6e45e2;
+            --secondary: #88d3ce;
+            --dark: #2a2d3b;
+            --light: #f9f9f9;
+            --accent: #ff7e5f;
+            --shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+            background-image: url('https://avatars.mds.yandex.net/i?id=93631582a803a393ce83584bfb674912109413b1-5026366-images-thumbs&n=13');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(245, 245, 245, 0.9) 100%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            width: 100%;
+        }
+
+        .form-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            color: var(--dark);
+            position: relative;
+            display: inline-block;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            padding: 0 1rem;
+        }
+
+        .form-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 4px;
+        }
+
+        .form-description {
+            color: #555;
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .feedback-form {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feedback-form:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .form-group {
+            margin-bottom: 1.8rem;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 1rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #fafafa;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(110, 69, 226, 0.15);
+            background-color: white;
+        }
+
+        textarea.form-control {
+            min-height: 180px;
+            resize: vertical;
+        }
+
+        .btn-submit {
+            display: block;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 2.5rem auto 0;
+            box-shadow: 0 5px 15px rgba(110, 69, 226, 0.3);
+            width: fit-content;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(110, 69, 226, 0.4);
+            background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+        }
+
+        .file-upload {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .file-upload-label {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: #555;
+            border: 2px dashed #ccc;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .file-upload-label:hover {
+            background: linear-gradient(135deg, #e0e0e0 0%, #d0d0d0 100%);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .file-name {
+            font-size: 0.95rem;
+            color: #666;
+            flex-grow: 1;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .feedback-form {
+                padding: 1.5rem;
+            }
+
+            .form-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <h1 class="form-title">Обратная связь</h1>
+            <p class="form-description">Мы ценим ваше мнение. Оставьте сообщение, и мы обязательно ответим вам в ближайшее время.</p>
+        </div>
+
+        <form method="post" enctype="multipart/form-data" class="feedback-form">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="id_title" class="form-label">Тема сообщения</label>
+                <input type="text" name="title" id="id_title" class="form-control" required placeholder="О чем ваше сообщение?">
+            </div>
+
+            <div class="form-group">
+                <label for="id_surname" class="form-label">Фамилия</label>
+                <input type="text" name="surname" id="id_surname" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="id_name" class="form-label">Имя</label>
+                <input type="text" name="name" id="id_name" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="id_patronymic" class="form-label">Отчество (если есть)</label>
+                <input type="text" name="patronymic" id="id_patronymic" class="form-control" placeholder="Необязательно">
+            </div>
+
+            <div class="form-group">
+                <label for="id_email" class="form-label">Email</label>
+                <input type="email" name="email" id="id_email" class="form-control" required placeholder="example@mail.com">
+            </div>
+
+            <div class="form-group">
+                <label for="id_nickname" class="form-label">Никнейм (если есть)</label>
+                <input type="text" name="nickname" id="id_nickname" class="form-control" placeholder="Ваш игровой никнейм">
+            </div>
+
+            <div class="form-group">
+                <label for="id_text" class="form-label">Ваше сообщение</label>
+                <textarea name="text" id="id_text" class="form-control" required placeholder="Опишите ваше сообщение подробно..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Прикрепить фото (необязательно)</label>
+                <div class="file-upload">
+                    <label for="id_photo" class="file-upload-label">Выбрать файл</label>
+                    <span class="file-name" id="file-name">Файл не выбран</span>
+                    <input type="file" name="photo" id="id_photo" accept="image/*">
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">Отправить сообщение</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('id_photo').addEventListener('change', function(e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : 'Файл не выбран';
+            document.getElementById('file-name').textContent = fileName;
+        });
+    </script>
+{% endblock %}
+</body>
+</html>
