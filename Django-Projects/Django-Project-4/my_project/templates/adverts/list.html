@@ -1,0 +1,20 @@
+<h1>Все объявления</h1>
+<ul>
+    {% for advert in adverts %}
+        <li>
+            <a href="{% url 'advert_detail' advert.id %}">{{ advert.title }}</a>
+            ({{ advert.get_category_display }})
+        </li>
+    {% endfor %}
+</ul>
+<a href="{% url 'advert_create' %}">Создать объявление</a>
+
+<form method="get" action="{% url 'advert_list' %}">
+    <select name="category">
+        <option value="">Все категории</option>
+        {% for value, label in Advert.CATEGORY_CHOICES %}
+            <option value="{{ value }}" {% if request.GET.category == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Фильтровать</button>
+</form>

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Удаление отклика</h1>
+<p>Вы уверены, что хотите удалить отклик "{{ object.text|truncatechars:30 }}"?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Удалить</button>
+    <a href="{% url 'response_list' %}" class="btn btn-secondary">Отмена</a>
+</form>
+{% endblock %}

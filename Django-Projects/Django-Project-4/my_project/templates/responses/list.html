@@ -1,0 +1,27 @@
+<h1>Мои отклики</h1>
+
+<form method="get">
+    {{ form.as_p }}
+    <button type="submit">Фильтровать</button>
+</form>
+
+<ul>
+    {% for response in responses %}
+        <li>
+            <p>{{ response.text }} (к объявлению "{{ response.advert.title }}")</p>
+            <p>Автор: {{ response.author.username }}</p>
+            <p>Статус: {% if response.is_accepted %}Принят{% else %}Не принят{% endif %}</p>
+
+            {% if not response.is_accepted %}
+                <form method="post" action="{% url 'response_accept' response.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Принять</button>
+                </form>
+            {% endif %}
+
+            <a href="{% url 'response_delete' response.id %}">Удалить</a>
+        </li>
+    {% empty %}
+        <li>Нет откликов</li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,7 @@
+<h1>Подтвердите email</h1>
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="code" placeholder="Введите код из письма" required>
+    <button type="submit">Подтвердить</button>
+</form>
+{% if error %}<p style="color: red;">{{ error }}</p>{% endif %}

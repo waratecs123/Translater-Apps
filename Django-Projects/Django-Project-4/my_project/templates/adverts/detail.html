@@ -1,0 +1,14 @@
+<h1>{{ advert.title }}</h1>
+<p>Категория: {{ advert.get_category_display }}</p>
+
+{% if advert.image %}
+    <img src="{{ advert.image.url }}" alt="{{ advert.title }}" style="max-width: 300px;">
+{% endif %}
+
+{% if advert.video_url %}
+    <iframe width="560" height="315" src="{{ advert.video_url }}" frameborder="0" allowfullscreen></iframe>
+{% endif %}
+
+<p>{{ advert.content|linebreaks }}</p>
+<p>Автор: {{ advert.author.username }}</p>
+<a href="{% url 'response_create' advert.id %}">Оставить отклик</a>
