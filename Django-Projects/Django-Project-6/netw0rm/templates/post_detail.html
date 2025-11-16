@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>/{{post.category}}/ - {{post.id}}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eef2ff;
+            margin: 0;
+            padding: 10px;
+            color: #000;
+            font-size: 14px;
+        }
+        .header {
+            background-color: #b7c5d9;
+            padding: 5px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #a7a7a7;
+        }
+        .post {
+            background-color: #d6daf0;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #b7c5d9;
+            border-radius: 3px;
+        }
+        .post-header {
+            color: #34345c;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .post-content {
+            margin-left: 10px;
+            margin-top: 10px;
+        }
+        .comment {
+            background-color: #d6daf0;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #b7c5d9;
+            border-radius: 3px;
+        }
+        .comment-header {
+            color: #34345c;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .comment-form {
+            background-color: #d6daf0;
+            padding: 10px;
+            margin-top: 20px;
+            border: 1px solid #b7c5d9;
+            border-radius: 3px;
+        }
+        img {
+            max-width: 300px;
+            max-height: 300px;
+        }
+        a {
+            color: #34345c;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        button {
+            background-color: #b7c5d9;
+            border: 1px solid #a7a7a7;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #a7b5c9;
+        }
+        .no-comments {
+            background-color: #d6daf0;
+            padding: 15px;
+            border: 1px solid #b7c5d9;
+            border-radius: 3px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="{% url 'post_list' %}">← Back to Posts</a>
+    </div>
+
+    <div class="post">
+        <div class="post-header">
+            <span class="post-nickname">{{post.nickname}}</span> |
+            <span class="post-category">/{{post.category}}/</span> |
+            <span class="post-time">{{post.created_at}}</span>
+        </div>
+        <div class="post-content">
+            <p>{{post.text}}</p>
+            {% if post.photo %}
+                <img src="{{ post.photo.url }}" alt="Post image">
+            {% endif %}
+            {% if post.file %}
+                <p>File: <a href="{{ post.file.url }}" download>{{ post.file.name|slice:"10:" }} - Download</a></p>
+            {% endif %}
+        </div>
+    </div>
+
+    <h3>Comments:</h3>
+    {% if comments %}
+        {% for comment in comments %}
+        <div class="comment">
+            <div class="comment-header">
+                {{comment.nickname}} | {{comment.created_at}}
+            </div>
+            <div class="comment-content">
+                <p>{{comment.text}}</p>
+                {% if comment.photo %}
+                    <img src="{{ comment.photo.url }}" alt="Comment photo">
+                {% endif %}
+                {% if comment.file %}
+                    <p>File: <a href="{{ comment.file.url }}" download>{{ comment.file.name|slice:"10:" }} - Download</a></p>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="no-comments">
+            No comments yet.
+        </div>
+    {% endif %}
+
+    <div class="comment-form">
+        <h3>Add a comment:</h3>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

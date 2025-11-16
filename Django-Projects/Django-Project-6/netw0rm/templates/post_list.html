@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>netw0rm</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eef2ff;
+            margin: 0;
+            padding: 10px;
+            color: #000;
+            font-size: 14px;
+        }
+        .header {
+            background-color: #b7c5d9;
+            padding: 5px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #a7a7a7;
+        }
+        .category-filter {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        .category-filter a {
+            text-decoration: none;
+            color: #34345c;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 3px;
+            background-color: #d6daf0;
+        }
+        .category-filter a.active {
+            background-color: #b7c5d9;
+        }
+        .category-filter a:hover {
+            background-color: #b7c5d9;
+        }
+        .post {
+            background-color: #d6daf0;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #b7c5d9;
+            border-radius: 3px;
+        }
+        .post-header {
+            color: #34345c;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .post-content {
+            margin-left: 10px;
+        }
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #b7c5d9;
+            margin: 10px 0;
+        }
+        a {
+            color: #34345c;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .no-posts {
+            background-color: #d6daf0;
+            padding: 15px;
+            border: 1px solid #b7c5d9;
+            border-radius: 3px;
+            text-align: center;
+        }
+        .create-post {
+            background-color: #d6daf0;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #b7c5d9;
+            border-radius: 3px;
+        }
+        .create-post h3 {
+            margin-top: 0;
+            color: #34345c;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 20px;
+        }
+        .pagination a {
+            padding: 5px 10px;
+            background-color: #d6daf0;
+            border: 1px solid #b7c5d9;
+            border-radius: 3px;
+        }
+        .pagination a.active {
+            background-color: #b7c5d9;
+            font-weight: bold;
+        }
+        button, input[type="submit"] {
+            background-color: #b7c5d9;
+            border: 1px solid #a7a7a7;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover, input[type="submit"]:hover {
+            background-color: #a7b5c9;
+        }
+        textarea {
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            min-height: 100px;
+        }
+        input[type="text"], select {
+            margin-bottom: 10px;
+            padding: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .errorlist {
+            color: #ff0000;
+            margin: 0 0 10px 0;
+            padding: 0;
+            list-style-type: none;
+        }
+        .form-field {
+            margin-bottom: 10px;
+        }
+        label {
+            display: block;
+            margin-bottom: 3px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>netw0rm - Board</h1>
+    </div>
+
+    <div class="create-post">
+        <h3>Create New Post</h3>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% if form.errors %}
+                <ul class="errorlist">
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <div class="form-field">
+                <label for="id_category">Category:</label>
+                {{ form.category }}
+            </div>
+
+            <div class="form-field">
+                <label for="id_nickname">Nickname:</label>
+                {{ form.nickname }}
+            </div>
+
+            <div class="form-field">
+                <label for="id_text">Text:</label>
+                {{ form.text }}
+            </div>
+
+            <div class="form-field">
+                <label for="id_photo">Image (optional):</label>
+                {{ form.photo }}
+            </div>
+
+            <div class="form-field">
+                <label for="id_file">File (optional):</label>
+                {{ form.file }}
+            </div>
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    <div class="category-filter">
+        <a href="{% url 'post_list' %}" {% if not current_category %}class="active"{% endif %}>All</a>
+        {% for value, name in form.fields.category.choices %}
+            <a href="?category={{ value }}" {% if current_category == value %}class="active"{% endif %}>{{ name }}</a>
+        {% endfor %}
+    </div>
+
+    <hr>
+
+    <h2>Posts:</h2>
+    {% if page_obj %}
+        {% for post in page_obj %}
+        <div class="post">
+            <div class="post-header">
+                <span class="post-nickname">{{ post.nickname|default:"Anonymous" }}</span> |
+                <span class="post-category">{{ post.get_category_display }}</span> |
+                <span class="post-time">{{ post.created_at }}</span>
+            </div>
+            <div class="post-content">
+                <a href="{% url 'post_detail' pk=post.pk %}">
+                    {{ post.text|truncatechars:200 }}
+                </a>
+                {% if post.photo %}
+                    <span style="color: #34345c;">[Image]</span>
+                {% endif %}
+                {% if post.file %}
+                    <span style="color: #34345c;">[File]</span>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page=1{% if current_category %}&category={{ current_category }}{% endif %}">« First</a>
+                <a href="?page={{ page_obj.previous_page_number }}{% if current_category %}&category={{ current_category }}{% endif %}">‹ Previous</a>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <a class="active" href="?page={{ num }}{% if current_category %}&category={{ current_category }}{% endif %}">{{ num }}</a>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a href="?page={{ num }}{% if current_category %}&category={{ current_category }}{% endif %}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if current_category %}&category={{ current_category }}{% endif %}">Next ›</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}{% if current_category %}&category={{ current_category }}{% endif %}">Last »</a>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="no-posts">
+            No posts in this category yet. Be the first to post!
+        </div>
+    {% endif %}
+</body>
+</html>
