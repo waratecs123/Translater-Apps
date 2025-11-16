@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Еженедельная рассылка</title>
+</head>
+<body>
+    <h2>Новые статьи в категории {{ category.topic }}</h2>
+    <p>Здравствуйте, {{ username }}! Вот новые статьи за прошедшую неделю:</p>
+
+    <ul>
+    {% for article in articles %}
+        <li style="margin-bottom: 20px;">
+            <h3>{{ article.title }}</h3>
+            <p>{{ article.preview }}</p>
+            <a href="{{ site_url }}{% url 'news_detail' pk=article.pk %}">Читать полностью</a>
+        </li>
+    {% endfor %}
+    </ul>
+
+    <hr>
+    <p>Если вы больше не хотите получать эту рассылку, вы можете отписаться на странице категории.</p>
+    <p>С уважением,<br>Команда новостного портала</p>
+</body>
+</html>

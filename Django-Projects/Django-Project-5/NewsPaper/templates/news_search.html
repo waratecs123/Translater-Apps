@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск новостей</title>
+    {% load static %}
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <a href="/">News Portal</a>
+        <nav>
+            <a href="{% url 'news_list' %}">Новости</a>
+            <a href="{% url 'article_list' %}">Статьи</a>
+            <a href="{% url 'news_create' %}">Создать новость</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Поиск новостей</h1>
+
+        <form method="get" class="search-form">
+            {{ filterset.form.as_p }}
+            <button type="submit">Искать</button>
+        </form>
+
+        {% if news_list %}
+            <section class="news-results">
+                {% for news in news_list %}
+                <article class="news-item">
+                    <h2>{{ news.heading }}</h2>
+                    <p>{{ news.text_n_ar|truncatechars:200 }}</p>
+                    <a href="{% url 'news_detail' news.pk %}" class="read-more">Читать далее</a>
+                </article>
+                {% endfor %}
+            </section>
+        {% else %}
+            <p class="no-results">Новости не найдены</p>
+        {% endif %}
+    </main>
+</body>
+</html>

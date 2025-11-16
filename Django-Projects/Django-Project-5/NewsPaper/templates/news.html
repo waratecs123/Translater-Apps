@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Новости</title>
+    {% load static %}
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <a href="/">News Portal</a>
+        <nav>
+            <a href="{% url 'news_list' %}" class="active">Новости</a>
+            <a href="{% url 'article_list' %}">Статьи</a>
+            <a href="{% url 'news_create' %}">Создать новость</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Последние новости</h1>
+        {% load cache %}
+        {% cache 100 news_list %}
+        {% for news in news_list %}
+        <article>
+            <h2>{{ news.heading }}</h2>
+            <p>{{ news.text_n_ar|truncatechars:200 }}</p>
+            <footer>
+                Опубликовано: {{ news.created_at|date:"d.m.Y H:i" }} |
+                Автор: {{ news.author.user.username }} |
+                Рейтинг: {{ news.rating }}
+            </footer>
+            <a href="{% url 'news_detail' news.pk %}">Читать далее</a>
+        </article>
+        {% endfor %}
+        {% endcache %}
+    </main>
+
+    {% if user.is_authenticated %}
+        {% if not user.groups.filter.name == 'authors' %}
+            <a href="{% url 'become_author' %}" class="btn btn-primary">Стать автором</a>
+        {% endif %}
+    {% endif %}
+</body>
+</html>

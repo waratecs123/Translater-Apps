@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Список статей</title>
+    {% load static %}
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <a href="/">News Portal</a>
+        <ul>
+            <li><a href="{% url 'news_list' %}">Новости</a></li>
+            <li><a href="{% url 'article_list' %}">Статьи</a></li>
+        </ul>
+    </nav>
+
+    <h1>Список статей</h1>
+    <a href="{% url 'article_create' %}" class="btn">Создать статью</a>
+
+    {% for article in articles %}
+    <div class="article">
+        <h3>{{ article.heading }}</h3>
+        <p>{{ article.text_n_ar|truncatechars:200 }}</p>
+        <p>
+            Опубликовано: {{ article.created_at|date:"d.m.Y H:i" }} |
+            Автор: {{ article.author.user.username }} |
+            Рейтинг: {{ article.rating }}
+        </p>
+        <div>
+            <a href="{% url 'news_detail' article.pk %}">Читать</a>
+            <a href="{% url 'article_edit' article.pk %}">Редактировать</a>
+            <a href="{% url 'article_delete' article.pk %}">Удалить</a>
+        </div>
+    </div>
+    {% empty %}
+    <p>Статей пока нет</p>
+    {% endfor %}
+
+    {% if is_paginated %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">Назад</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+        <a href="?page={{ num }}" {% if num == page_obj.number %}class="active"{% endif %}>{{ num }}</a>
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Вперед</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Удаление статьи</title>
+    {% load static %}
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
+</head>
+<body>
+    <nav>
+        <a href="/">News Portal</a>
+        <ul>
+            <li><a href="/news/">Все новости</a></li>
+        </ul>
+    </nav>
+
+    <h1>Удаление статьи</h1>
+    <p>Вы уверены, что хотите удалить статью "{{ object.heading }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Да, удалить</button>
+        <a href="{% url 'news_detail' object.pk %}">Отмена</a>
+    </form>
+</body>
+</html>

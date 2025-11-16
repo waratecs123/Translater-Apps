@@ -1,0 +1,17 @@
+<h2>Здравствуйте, {{ user.username }}!</h2>
+<p>За прошедшую неделю в ваших подписках появились новые публикации:</p>
+
+{% for category in categories %}
+    <h3>{{ category.topic }}</h3>
+    <ul>
+    {% for post in posts %}
+        {% if category in post.categories.all %}
+        <li>
+            <strong>{{ post.title }}</strong><br>
+            {{ post.preview }}<br>
+            <a href="http://example.com{{ post.get_absolute_url }}">Читать</a>
+        </li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+{% endfor %}

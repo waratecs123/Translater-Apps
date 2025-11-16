@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{{ news.title }}</title>
+    {% load static %}
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <a href="/">News Portal</a>
+        <a href="{% url 'news_list' %}">Все новости</a>
+    </nav>
+
+    <main>
+        <h1>{{ news.title }}</h1>
+        <p class="meta">
+            Опубликовано: {{ news.created_at|date:"d.m.Y H:i" }} |
+            Автор: {{ news.author.user.username }} |
+            Рейтинг: {{ news.rating }}
+        </p>
+        <div class="content">
+            {{ news.text|linebreaks }}
+        </div>
+    </main>
+
+    {% if user.is_authenticated and not user.groups.filter.name == 'authors' %}
+        <a href="{% url 'become_author' %}" class="btn btn-primary">Стать автором</a>
+    {% endif %}
+</body>
+</html>
