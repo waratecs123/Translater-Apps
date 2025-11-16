@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Удаление атрибутов</title>
+</head>
+<body>
+    <h1>Удаление атрибутов</h1>
+
+    <p>Вы уверены, что хотите удалить атрибуты персонажа "{{ object.character.name }}"?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Да, удалить</button>
+        <a href="{% url 'attribute_list' %}">Отмена</a>
+    </form>
+</body>
+</html>

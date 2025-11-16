@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список атрибутов</title>
+</head>
+<body>
+    <h1>Список атрибутов</h1>
+
+    <form method="get">
+        <select name="character_filter">
+            <option value="">Все персонажи</option>
+            {% for character in filter.form.character_filter.field.queryset %}
+                <option value="{{ character.id }}">{{ character.name }}</option>
+            {% endfor %}
+        </select>
+        <input type="number" name="strength_filter" placeholder="Сила ≥">
+        <input type="number" name="dexterity_filter" placeholder="Ловкость ≥">
+        <select name="constitution_filter">
+            <option value="">Все телосложения</option>
+            {% for value, label in filter.form.constitution_filter.field.choices %}
+                <option value="{{ value }}">{{ label }}</option>
+            {% endfor %}
+        </select>
+        <input type="number" name="intelligence_filter" placeholder="Интеллект ≥">
+        <input type="number" name="wisdom_filter" placeholder="Мудрость ≥">
+        <input type="number" name="charisma_filter" placeholder="Харизма ≥">
+        <button type="submit">Фильтровать</button>
+    </form>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Персонаж</th>
+                <th>Сила</th>
+                <th>Ловкость</th>
+                <th>Телосложение</th>
+                <th>Интеллект</th>
+                <th>Мудрость</th>
+                <th>Харизма</th>
+                <th>Здоровье</th>
+                <th>Мана</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for attribute in attribute_list %}
+            <tr>
+                <td>{{ attribute.character.name }}</td>
+                <td>{{ attribute.strength }}</td>
+                <td>{{ attribute.dexterity }}</td>
+                <td>{{ attribute.get_constitution_display }}</td>
+                <td>{{ attribute.intelligence }}</td>
+                <td>{{ attribute.wisdom }}</td>
+                <td>{{ attribute.charisma }}</td>
+                <td>{{ attribute.health }}</td>
+                <td>{{ attribute.mana }}</td>
+                <td>
+                    <a href="{% url 'attribute_detail' attribute.pk %}">Просмотр</a>
+                    <a href="{% url 'attribute_update' attribute.pk %}">Редактировать</a>
+                    <a href="{% url 'attribute_delete' attribute.pk %}">Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'attribute_create' %}">Создать новые атрибуты</a>
+    <br>
+    <a href="{% url 'character_list' %}">Перейти к персонажам</a>
+</body>
+</html>

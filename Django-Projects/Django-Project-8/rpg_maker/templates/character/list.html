@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список персонажей</title>
+</head>
+<body>
+    <h1>Список персонажей</h1>
+
+    <form method="get">
+        <input type="text" name="name_filter" placeholder="Имя персонажа">
+        <select name="race_filter">
+            <option value="">Все расы</option>
+            {% for race in filter.form.race_filter.field.queryset %}
+                <option value="{{ race.id }}">{{ race.name }}</option>
+            {% endfor %}
+        </select>
+        <select name="class_filter">
+            <option value="">Все классы</option>
+            {% for class in filter.form.class_filter.field.queryset %}
+                <option value="{{ class.id }}">{{ class.name }}</option>
+            {% endfor %}
+        </select>
+        <input type="number" name="level_filter" placeholder="Уровень">
+        <input type="text" name="backstory_filter" placeholder="История начинается с">
+        <input type="date" name="created_at_filter" placeholder="Дата создания после">
+        <button type="submit">Фильтровать</button>
+    </form>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Имя</th>
+                <th>Раса</th>
+                <th>Класс</th>
+                <th>Уровень</th>
+                <th>Дата создания</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for character in character_list %}
+            <tr>
+                <td>{{ character.name }}</td>
+                <td>{{ character.race.name }}</td>
+                <td>{{ character.character_class.name }}</td>
+                <td>{{ character.level }}</td>
+                <td>{{ character.created_at }}</td>
+                <td>
+                    <a href="{% url 'character_detail' character.pk %}">Просмотр</a>
+                    <a href="{% url 'character_update' character.pk %}">Редактировать</a>
+                    <a href="{% url 'character_delete' character.pk %}">Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'character_create' %}">Создать нового персонажа</a>
+    <br>
+    <a href="{% url 'attribute_list' %}">Перейти к атрибутам</a>
+    <br>
+    <a href="{% url 'inventory_item_list' %}">Перейти к инвентарю</a>
+</body>
+</html>

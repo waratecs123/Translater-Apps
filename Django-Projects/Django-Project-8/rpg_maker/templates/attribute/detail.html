@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Детали атрибутов</title>
+</head>
+<body>
+    <h1>Атрибуты персонажа: {{ attribute_detail.character.name }}</h1>
+
+    <p><strong>Сила:</strong> {{ attribute_detail.strength }}</p>
+    <p><strong>Ловкость:</strong> {{ attribute_detail.dexterity }}</p>
+    <p><strong>Телосложение:</strong> {{ attribute_detail.constitution }}</p>
+    <p><strong>Интеллект:</strong> {{ attribute_detail.intelligence }}</p>
+    <p><strong>Мудрость:</strong> {{ attribute_detail.wisdom }}</p>
+    <p><strong>Харизма:</strong> {{ attribute_detail.charisma }}</p>
+    <p><strong>Здоровье:</strong> {{ attribute_detail.health }}</p>
+    <p><strong>Мана:</strong> {{ attribute_detail.mana }}</p>
+
+    <a href="{% url 'attribute_update' attribute_detail.pk %}">Редактировать</a>
+    <a href="{% url 'attribute_delete' attribute_detail.pk %}">Удалить</a>
+    <br>
+    <a href="{% url 'attribute_list' %}">Назад к списку</a>
+</body>
+</html>

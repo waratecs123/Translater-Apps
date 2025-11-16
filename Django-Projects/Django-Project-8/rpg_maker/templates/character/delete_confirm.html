@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Удаление персонажа</title>
+</head>
+<body>
+    <h1>Удаление персонажа</h1>
+
+    <p>Вы уверены, что хотите удалить персонажа "{{ object.name }}"?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Да, удалить</button>
+        <a href="{% url 'character_list' %}">Отмена</a>
+    </form>
+</body>
+</html>

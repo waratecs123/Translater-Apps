@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список инвентаря</title>
+</head>
+<body>
+    <h1>Список инвентаря</h1>
+
+    <form method="get">
+        <select name="character_filter">
+            <option value="">Все персонажи</option>
+            {% for character in filter.form.character_filter.field.queryset %}
+                <option value="{{ character.id }}">{{ character.name }}</option>
+            {% endfor %}
+        </select>
+        <select name="item_filter">
+            <option value="">Все предметы</option>
+            {% for item in filter.form.item_filter.field.queryset %}
+                <option value="{{ item.id }}">{{ item.name }}</option>
+            {% endfor %}
+        </select>
+        <input type="number" name="quantity_filter" placeholder="Количество ≥">
+        <select name="is_equipped_filter">
+            <option value="">Все</option>
+            <option value="true">Одетые</option>
+            <option value="false">Не одетые</option>
+        </select>
+        <button type="submit">Фильтровать</button>
+    </form>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Персонаж</th>
+                <th>Предмет</th>
+                <th>Тип</th>
+                <th>Количество</th>
+                <th>Одет</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in inventory_item_list %}
+            <tr>
+                <td>{{ item.character.name }}</td>
+                <td>{{ item.item.name }}</td>
+                <td>{{ item.item.type.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{% if item.is_equipped %}Да{% else %}Нет{% endif %}</td>
+                <td>
+                    <a href="{% url 'inventory_item_detail' item.pk %}">Просмотр</a>
+                    <a href="{% url 'inventory_item_update' item.pk %}">Редактировать</a>
+                    <a href="{% url 'inventory_item_delete' item.pk %}">Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'inventory_item_create' %}">Добавить предмет в инвентарь</a>
+    <br>
+    <a href="{% url 'character_list' %}">Перейти к персонажам</a>
+</body>
+</html>

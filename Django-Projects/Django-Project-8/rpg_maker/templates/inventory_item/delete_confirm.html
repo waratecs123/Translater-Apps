@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Удаление предмета из инвентаря</title>
+</head>
+<body>
+    <h1>Удаление предмета из инвентаря</h1>
+
+    <p>Вы уверены, что хотите удалить предмет "{{ object.item.name }}" у персонажа "{{ object.character.name }}"?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Да, удалить</button>
+        <a href="{% url 'inventory_item_list' %}">Отмена</a>
+    </form>
+</body>
+</html>

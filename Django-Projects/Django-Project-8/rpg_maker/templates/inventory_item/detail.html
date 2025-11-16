@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Детали предмета инвентаря</title>
+</head>
+<body>
+    <h1>Предмет инвентаря</h1>
+
+    <p><strong>Персонаж:</strong> {{ inventory_item_detail.character.name }}</p>
+    <p><strong>Предмет:</strong> {{ inventory_item_detail.item.name }}</p>
+    <p><strong>Тип:</strong> {{ inventory_item_detail.item.type.name }}</p>
+    <p><strong>Описание:</strong> {{ inventory_item_detail.item.description }}</p>
+    <p><strong>Количество:</strong> {{ inventory_item_detail.quantity }}</p>
+    <p><strong>Одет:</strong> {% if inventory_item_detail.is_equipped %}Да{% else %}Нет{% endif %}</p>
+
+    <a href="{% url 'inventory_item_update' inventory_item_detail.pk %}">Редактировать</a>
+    <a href="{% url 'inventory_item_delete' inventory_item_detail.pk %}">Удалить</a>
+    <br>
+    <a href="{% url 'inventory_item_list' %}">Назад к списку</a>
+</body>
+</html>

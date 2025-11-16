@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Детали персонажа</title>
+</head>
+<body>
+    <h1>{{ character_detail.name }}</h1>
+
+    <p><strong>Раса:</strong> {{ character_detail.race.get_name_display }}</p>
+    <p><strong>Класс:</strong> {{ character_detail.character_class.get_name_display }}</p>
+    <p><strong>Уровень:</strong> {{ character_detail.level }}</p>
+    <p><strong>История:</strong> {{ character_detail.backstory }}</p>
+    <p><strong>Дата создания:</strong> {{ character_detail.created_at }}</p>
+
+    <h3>Умения:</h3>
+    <ul>
+        {% for skill in character_detail.skill.all %}
+        <li>{{ skill.get_name_display }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Заклинания:</h3>
+    <ul>
+        {% for spell in character_detail.spell.all %}
+        <li>{{ spell.get_name_display }} (Мана: {{ spell.mana_cost }}, Уровень: {{ spell.level_required }})</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'character_update' character_detail.pk %}">Редактировать</a>
+    <a href="{% url 'character_delete' character_detail.pk %}">Удалить</a>
+    <br>
+    <a href="{% url 'character_list' %}">Назад к списку</a>
+</body>
+</html>

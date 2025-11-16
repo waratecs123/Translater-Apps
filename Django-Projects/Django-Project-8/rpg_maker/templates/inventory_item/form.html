@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% if object %}Редактирование{% else %}Создание{% endif %} предмета инвентаря</title>
+</head>
+<body>
+    <h1>{% if object %}Редактирование предмета инвентаря{% else %}Добавление предмета в инвентарь{% endif %}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <button type="submit">Сохранить</button>
+    </form>
+
+    <a href="{% url 'inventory_item_list' %}">Отмена</a>
+</body>
+</html>
