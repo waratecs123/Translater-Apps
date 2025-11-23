@@ -22,6 +22,8 @@ This repository contains a collection of Python applications and utilities devel
 6. *Intelligent Assistant Framework* (assistant.py, data.py)  
    A command-based assistant system with modules for system operations, computational tools, entertainment features, and productivity utilities. Supports plugin extensions and graphical user interface with command history.
 
+7. *And many other projects (see the repository files)*
+
 ### Technical Specifications
 
 - *Language*: Python 3.8 or higher.  
